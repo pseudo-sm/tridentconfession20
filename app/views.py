@@ -17,6 +17,6 @@ def new_confession(request):
     c.save()
     body = "{} \n http://tridentconfession20.pythonanywhere.com/admin/".format(confession)
     email_msg = EmailMessage("New confession", body, settings.EMAIL_HOST_USER,
-                             ["saswathcommand@gmail.com"])
+                             ["saswathcommand@gmail.com","tridentculturalofficial044@gmail.com"])
     email_msg.send(fail_silently=False)
     return JsonResponse({"color":color},safe=False)
