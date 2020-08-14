@@ -15,7 +15,7 @@ def new_confession(request):
     color = colors[randint(0,3)]
     c = Confession(confession=confession,color=color)
     c.save()
-    body = "{}".format(confession)
+    body = "{} \n http://tridentconfession20.pythonanywhere.com/admin/".format(confession)
     email_msg = EmailMessage("New confession", body, settings.EMAIL_HOST_USER,
                              ["saswathcommand@gmail.com"])
     email_msg.send(fail_silently=False)
