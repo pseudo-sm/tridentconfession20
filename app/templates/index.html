@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>Trident Confessions | Class of 2020</title>
+	<title>Idea Box | Thriveni</title>
 	<meta name="viewport" content="width=device-width">
 	<link href='https://fonts.googleapis.com/css?family=Englebert' rel='stylesheet' type='text/css'>
     <style>
@@ -143,17 +143,22 @@ body {
   <path fill-rule="evenodd" d="M8 3.5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-.5.5H4a.5.5 0 0 1 0-1h3.5V4a.5.5 0 0 1 .5-.5z"/>
   <path fill-rule="evenodd" d="M7.5 8a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1H8.5V12a.5.5 0 0 1-1 0V8z"/>
   <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-</svg> Add your confession</button>
+</svg>Drop an Idea now</button>
 	</div>
 	<center>
 		<div class="containter mt-3">
-			<h5>Here is one last chance to pour your hearts out. No middleware, no admins, anything you post will directly reflect here!!</h5>
+			<h5>Use this portal to drop an idea or a suggestion.</h5>
 		</div>
 	</center>
 	<div class="wrapper clearfix">
-		<aside class="note-wrap note-yellow" id="temp"><p>This is where your confession will be posted. Say out loud what you always wanted to!! Click on the button above!!</p></aside>
+		<aside class="note-wrap note-yellow" id="temp">
+      <p>This is where your idea will be posted.</p>
+      <div class="bottom-0"><b>Example</b></div>
+    </aside>
 		{% for confession in confessions %}
-			<aside class="note-wrap note-{{confession.color}}"><p>{{confession.confession}}</p></aside>
+			<aside class="note-wrap note-{{confession.color}}">
+        <p>{{confession.confession}}</p>
+        <div class="bottom-0"><b>{{confession.site}}</b></div></aside>
 		{% endfor %}
 	</div>
 	</div>
@@ -166,7 +171,18 @@ body {
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <div class="modal-body">
-		  <textarea class="form-control" id="confession" placeholder="Speak your hearts out!!"></textarea>
+      <div class="m-3">
+		  <textarea class="form-control" id="confession" placeholder="Idea"></textarea>
+    </div>
+    <div class="m-3">
+      <select class="form-control" id="site">
+        {% for site in sites %}
+        <option value="{{site.site}}">{{site.site}}</option>
+        {% endfor %}
+        <option value="Others">Others</option>
+      </select>
+      </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" id="submit">Submit</button>
@@ -179,11 +195,13 @@ body {
 $("#submit").click(function() {
 	$("#submit").css('display','none');
 	$("#loading-submit").css('display','block');
+  site = $("#site").find(":selected").val();
 	confession = $("textarea#confession").val();
 	$.ajax({
 		url: "{% url 'new_confession' %}",
 		data : {
 			'confession':confession,
+      'site':site
 		},
 		type: 'GET',
 		dataType: 'json',
